@@ -51,19 +51,7 @@ export class ApplicationService implements IAppService {
 
 		this.application.use('/api', routes)
 
-		this.application.use(this.logError(), this.errorResponse())
-	}
-
-	private logError() {
-		return (
-			error: Error,
-			_req: Request,
-			_res: Response,
-			next: NextFunction
-		) => {
-			this.logger.error(error.message)
-			next()
-		}
+		this.application.use(this.errorResponse())
 	}
 
 	private errorResponse() {
@@ -76,6 +64,8 @@ export class ApplicationService implements IAppService {
 			res.header('Content-Type', 'application/json')
 
 			const { code, status, message, errors } = error.exception
+
+			this.logger.error(message as string)
 
 			res.status(error.exception.code || 500).json({
 				code: code || 500,

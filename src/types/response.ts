@@ -12,5 +12,5 @@ export interface IFieldError {
 
 export type ResponseType<T = null> = IResponse & {
 	data?: T
-	errors: IFieldError[]
+	errors?: IFieldError[]
 }
